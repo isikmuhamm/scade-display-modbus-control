@@ -35,7 +35,7 @@ void write_log(const char* format, ...) {
     fflush(log_file);
 }
 
-// Config file loaded here
+// Config file loaded
 ModbusConfig* load_config(const char* filename) {
     FILE* file = fopen(filename, "r");
     ModbusConfig* cfg = malloc(sizeof(ModbusConfig));
@@ -132,7 +132,7 @@ ModbusConfig* load_config(const char* filename) {
     return cfg;
 }
 
-// Modbus names and adresses are matched with program variables here.
+// Modbus names and adresses are matched with program variables
 void init_mappings(CONTEXT_STRUCT_NAME *context) {
     for (int i = 0; i < config->input_count; i++) {
         // Max adress value is found
@@ -158,8 +158,14 @@ void init_mappings(CONTEXT_STRUCT_NAME *context) {
     write_log("Modbus Input and Output Mappings initialized.");
 }
 
-// Modbus connection is established here
+// Modbus connection is established
 bool init_modbus_communication(CONTEXT_STRUCT_NAME *context) {
+    // Check if we should skip connection attempt
+    time_t current_time = time(NULL);
+    if (connection_failed && (current_time - last_connection_attempt < CONNECTION_RETRY_INTERVAL)) {
+        return false;
+    }
+
     if (config == NULL) {
         config = load_config(CONFIG_FILE);
         if (config == NULL) {
@@ -168,23 +174,30 @@ bool init_modbus_communication(CONTEXT_STRUCT_NAME *context) {
         }
     }
 
-    if (ctx != NULL) return true;  // Already connected
+    if (ctx != NULL) return true;  // Zaten bağlı
 
     ctx = modbus_new_tcp(config->server_ip, config->port);
     if (ctx == NULL) {
+        connection_failed = true;
+        last_connection_attempt = current_time;
         write_log("ERROR: Failed to create modbus context");
         return false;
     }
 
-    modbus_set_response_timeout(ctx, 0, 500000);  // 500ms timeout
+    modbus_set_response_timeout(ctx, 0, MODBUS_TIMEOUT);
     modbus_set_slave(ctx, config->slave_id);
 
     if (modbus_connect(ctx) == -1) {
         write_log("ERROR: Connection failed: %s", modbus_strerror(errno));
         modbus_free(ctx);
         ctx = NULL;
+        connection_failed = true;
+        last_connection_attempt = current_time;
         return false;
     }
+
+    // Connection successful, reset failure flag
+    connection_failed = false;
 
     // Add context parameter when calling init_mappings
     init_mappings(context);
@@ -192,6 +205,7 @@ bool init_modbus_communication(CONTEXT_STRUCT_NAME *context) {
     write_log("Connected to Modbus server at %s:%d", config->server_ip, config->port);
     return true;
 }
+
 
 // Modbus values readed and assigned into struct
 bool read_modbus_values(CONTEXT_STRUCT_NAME *context) {

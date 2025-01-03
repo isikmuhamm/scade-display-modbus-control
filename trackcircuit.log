@@ -1,0 +1,25 @@
+[2025-01-02 22:41:05] Added input mapping: out_RT01_Accept = 1
+[2025-01-02 22:41:05] Added input mapping: out_RT01_Reject = 2
+[2025-01-02 22:41:05] Added input mapping: out_RT01_RejectAck = 3
+[2025-01-02 22:41:05] Added input mapping: out_RT01_Request = 4
+[2025-01-02 22:41:05] Added input mapping: out_RT01_Reserve = 5
+[2025-01-02 22:41:05] Added output mapping: in_RT01_RejectAck = 1
+[2025-01-02 22:41:05] Added output mapping: in_RT01_Request = 2
+[2025-01-02 22:41:05] Added output mapping: in_TC03_I_Occupied_hws = 3
+[2025-01-02 22:41:05] Added output mapping: in_RT02_RejectAck = 4
+[2025-01-02 22:41:05] Added output mapping: in_RT02_Request = 5
+[2025-01-02 22:41:05] Config loaded successfully
+[2025-01-02 22:41:05] Modbus Input and Output Mappings initialized.
+[2025-01-02 22:41:16] Connected to Modbus server at 127.0.0.1:502
+[2025-01-02 23:42:14] Read input out_RT01_Accept = 0 from address 1
+[2025-01-02 23:42:14] Read input out_RT01_Reject = 0 from address 2
+[2025-01-02 23:42:14] Read input out_RT01_RejectAck = 0 from address 3
+[2025-01-02 23:42:14] Read input out_RT01_Request = 0 from address 4
+[2025-01-02 23:42:14] Read input out_RT01_Reserve = 0 from address 5
+[2025-01-02 23:42:14] Read output in_RT01_RejectAck = 0 from address 1
+[2025-01-02 23:42:14] Read output in_RT01_Request = 0 from address 2
+[2025-01-02 23:42:14] Read output in_TC03_I_Occupied_hws = 0 from address 3
+[2025-01-02 23:42:14] Read output in_RT02_RejectAck = 0 from address 4
+[2025-01-02 23:42:14] Read output in_RT02_Request = 0 from address 5
+[2025-01-02 22:55:55] Updated out_RT01_Accept: 0 -> 1 at address 1
+[2025-01-02 22:55:55] Updated out_RT01_Accept: 1 -> 0 at address 1

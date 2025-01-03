@@ -15,6 +15,9 @@
 #define CONFIG_FILE "config.ini"
 #define LOG_FILE "trackcircuit.log"
 #define EXPORT_FILE "mappings.csv"
+#define CONNECTION_RETRY_INTERVAL 5
+#define MODBUS_READ_INTERVAL 2
+#define MODBUS_TIMEOUT 100000 // 100 ms Connection timeout
 #define CONTEXT_STRUCT_NAME specification_typ_genel //Context struct name from [ansys_project_name]_[layer_name].h
 
 // Structures
